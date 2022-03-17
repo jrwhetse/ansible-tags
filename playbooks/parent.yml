@@ -1,0 +1,22 @@
+---
+# parent
+# ansible-playbook playbooks/parent.yml -i localhost
+
+- name: parent
+  hosts: 127.0.0.1
+  strategy: linear
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: child create
+      include_role:
+        name: test
+        tasks_from: child.yml
+      tags: [create]
+
+    - name: child delete
+      include_role:
+        name: test
+        tasks_from: child.yml
+      tags: [never, delete] 
